@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to HappyCats</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-light">
+  <div class="container text-center py-5">
+    <h1 class="mb-4">🐱 Welcome to HappyCats!</h1>
+    <img src="smiling-cat.jpg" alt="Smiling Cat" class="img-fluid mb-4" style="max-width: 300px;">
+    <h4 class="mb-3">Here's your cat fact of the moment:</h4>
+    <p id="catFact" class="lead">Loading cat fact...</p>
+    <button id="catBtn" onclick="loadCatFact()" class="btn btn-info mt-3">🐱 Get Another Cat Fact</button>
+  </div>
+
+  <script>
+    function loadCatFact() {
+      const factElement = document.getElementById('catFact');
+      const button = document.getElementById('catBtn');
+
+      button.classList.add('animate-cat');
+      setTimeout(() => {
+        button.classList.remove('animate-cat');
+      }, 500);
+
+      factElement.textContent = 'Loading another awesome fact...';
+      fetch('https://cat-fact.herokuapp.com/facts/random')
+        .then(res => res.json())
+        .then(data => {
+          factElement.textContent = data.text;
+        })
+        .catch(() => {
+          factElement.textContent = 'Sorry! Could not load a cat fact right now.';
+        });
+    }
+
+    loadCatFact();
+  </script>
+</body>
+</html>
